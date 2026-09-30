@@ -1,0 +1,3 @@
+import {createApp} from "./app";import {AzureServiceBusPublisher} from "./messaging";import {InMemoryRepository} from "./repository";import {QueueService} from "./service";
+const repo=new InMemoryRepository();repo.seedTenant({id:"tenant-demo",name:"Demo Business"});repo.seedLocation({id:"location-demo",tenantId:"tenant-demo",name:"Main Location"});repo.seedQueue({id:"queue-demo",tenantId:"tenant-demo",locationId:"location-demo",name:"General",averageServiceMinutes:10});
+const app=createApp(new QueueService(repo,new AzureServiceBusPublisher()));const port=Number(process.env.PORT??3000);app.listen(port,()=>console.log(`Virtual Queue Service listening on http://localhost:${port}`));
